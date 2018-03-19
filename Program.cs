@@ -15,20 +15,24 @@ namespace Game2048 {
             // game.Start();
 
             var Board = new int[1, 4];
-            Board[0, 0] = 0;
-            Board[1, 0] = 0;
-            Board[2, 0] = 0;
-            Board[3, 0] = 256;
+            Board[0, 0] = 4;
+            Board[0, 1] = 8;
+            Board[0, 2] = 8;
+            Board[0, 3] = 4;
             handler.Board = Board;
-            handler.HandleCommand (Command.Command.Up);
             painter.Board = Board;
+            handler.HandleCommand (Command.Command.Left);
             painter.Draw ();
-            Console.ReadKey ();
-            handler.HandleCommand (Command.Command.Up);
-            painter.Draw ();
-            Console.ReadKey ();
-            handler.HandleCommand (Command.Command.Down);
-            painter.Draw ();
+            Console.WriteLine();
+            
+            // handler.HandleCommand (Command.Command.Up);
+            // painter.Draw ();
+            // Console.WriteLine();
+
+            // handler.HandleCommand (Command.Command.Down);
+            // painter.Draw ();
+            // Console.WriteLine();
+
             Console.ReadKey ();
 
         }
