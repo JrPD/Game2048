@@ -2,39 +2,38 @@ using System;
 using Game2048.Command;
 using Game2048.Paint;
 
-namespace Game2048
-{
-    public class Game
-    {
-        private Array gameState = new Array[4,4];
+namespace Game2048 {
+    public class Game {
+        private int[, ] gameBoard;
         private CommandCreator creator;
         private CommandHandler handler;
         private Painter painter;
 
-        public Game()
-        {
+        public Game () {
 
         }
 
-        public Game(CommandCreator creator, CommandHandler handler, Painter painter)
-        {
+        public Game (CommandCreator creator, CommandHandler handler, Painter painter, int boadrDim) {
             this.painter = painter;
             this.creator = creator;
             this.handler = handler;
+            BoardDim = boadrDim;
+            gameBoard = new int[BoardDim, BoardDim];
         }
 
-        public void Start()
-        {
-            while (true)
-            {
-                Console.WriteLine("Enter command: ");
-                var value = Console.ReadKey();
+        public int BoardDim { get; internal set; }
 
-                var cmd = creator.GetCommand(value);
-                handler.HandleCommand(cmd);
-                painter.Draw();
+        public void Start () {
+            while (true) {
+                Console.WriteLine ("Enter command: ");
+                var value = Console.ReadKey ();
 
-                Console.WriteLine("You entered: {value}");
+                var cmd = creator.GetCommand (value);
+                handler.Board = gameBoard;
+                handler.HandleCommand (cmd);
+                painter.Draw ();
+
+                Console.WriteLine ("You entered: {value}");
             }
         }
     }

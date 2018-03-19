@@ -1,3 +1,5 @@
+using System;
+
 namespace Game2048.Paint
 {
     interface IPainter
@@ -11,9 +13,16 @@ namespace Game2048.Paint
         {
         }
 
+        public int[,] Board { get; internal set; }
+
         public void Draw()
         {
-            throw new System.NotImplementedException();
+            for(int i = 0; i<Board.GetLength(0) ; i++){
+                for(int j = 0; j < Board.GetLength(0) ; j++){
+                    Console.Write("{0,-5}",Board[i,j]);
+                }
+                Console.WriteLine();
+            }
         }
     }
 }
