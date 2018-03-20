@@ -14,11 +14,20 @@ namespace Game2048 {
             var game = new Game (creator, handler, painter, boadrDim);
             // game.Start();
 
-            var Board = new int[1, 4];
-            Board[0, 0] = 4;
-            Board[0, 1] = 8;
-            Board[0, 2] = 8;
-            Board[0, 3] = 4;
+            var Board = new CellArray(boadrDim);
+            for (int i = 0; i < Board.Dimension; i++)
+            {
+                for (int j = 0; j < Board.Dimension; j++)
+                {
+                    Board[i,j].X = i;
+                    Board[i,j].Y = j;
+                }
+            }
+            Board[0,1].Value = 4;
+            Board[0,1].Value = 4;
+            Board[0,1].Value = 8;
+            Board[0,1].Value = 8;
+
             handler.Board = Board;
             painter.Board = Board;
             handler.HandleCommand (Command.Command.Left);
@@ -33,7 +42,7 @@ namespace Game2048 {
             // painter.Draw ();
             // Console.WriteLine();
 
-            Console.ReadKey ();
+            Console.ReadKey (true);
 
         }
     }

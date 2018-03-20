@@ -8,7 +8,7 @@ namespace Game2048.Command
     }
     public class CommandHandler : ICommandHandler
     {
-        public int[,] Board { get; internal set; }
+        public CellArray Board { get; internal set; }
 
         public void HandleCommand(Command command)
         {
@@ -31,7 +31,7 @@ namespace Game2048.Command
 
         private void HandleUp()
         {
-            for (int j = 0; j < Board.GetLength(1); j++)
+            for (int j = 0; j < Board.Dimension; j++)
             {
                 SummarizeRowValuesUp(j);
                 MoveUpRowValues(j);
@@ -39,7 +39,7 @@ namespace Game2048.Command
         }
         private void SummarizeRowValuesUp(int j)
         {
-            for (int i = 0; i < Board.GetLength(0) - 2; i++)
+            for (int i = 0; i < Board.Dimension - 2; i++)
             {
                 AddVerticalCells(j, i, true);
             }
@@ -48,14 +48,14 @@ namespace Game2048.Command
         private void MoveUpRowValues(int col)
         {
             int empty = -1;
-            for (int i = 0; i < Board.GetLength(0); i++)
+            for (int i = 0; i < Board.Dimension; i++)
             {
                 CheckEmptyAndSwipe(col, ref empty, i, true, true);
             }
         }
         private void HandleDown()
         {
-            for (int j = 0; j < Board.GetLength(1); j++)
+            for (int j = 0; j < Board.Dimension; j++)
             {
                 SummarizeRowValuesDown(j);
                 MoveDownRowValues(j);
@@ -63,7 +63,7 @@ namespace Game2048.Command
         }
         private void SummarizeRowValuesDown(int j)
         {
-            for (int i = Board.GetLength(0) - 1; i > 0; i--)
+            for (int i = Board.Dimension - 1; i > 0; i--)
             {
                 AddVerticalCells(j, i, false);
             }
@@ -72,14 +72,14 @@ namespace Game2048.Command
         {
             int empty = -1;
 
-            for (int i = Board.GetLength(0) - 1; i >= 0; i--)
+            for (int i = Board.Dimension - 1; i >= 0; i--)
             {
                 CheckEmptyAndSwipe(col, ref empty, i, false, false);
             }
         }
         private void HandleRight()
         {
-            for (int i = 0; i < Board.GetLength(0); i++)
+            for (int i = 0; i < Board.Dimension; i++)
             {
                 SummarizeRowValuesRight(i);
                 MoveRightRowValues(i);
@@ -87,7 +87,7 @@ namespace Game2048.Command
         }
         private void SummarizeRowValuesRight(int i)
         {
-            for (int j = Board.GetLength(1) - 1; j > 0; j--)
+            for (int j = Board.Dimension - 1; j > 0; j--)
             {
                 AddHorizontalCells(i, j, false);
             }
@@ -96,14 +96,14 @@ namespace Game2048.Command
         {
             int empty = -1;
 
-            for (int j = Board.GetLength(1) - 1; j >= 0; j--)
+            for (int j = Board.Dimension - 1; j >= 0; j--)
             {
                 CheckEmptyAndSwipe(col, ref empty, j, false, true);
             }
         }
         private void HandleLeft()
         {
-            for (int i = 0; i < Board.GetLength(0); i++)
+            for (int i = 0; i < Board.Dimension; i++)
             {
                 SummarizeRowValuesLeft(i);
                 MoveLeftRowValues(i);
@@ -111,7 +111,7 @@ namespace Game2048.Command
         }
         private void SummarizeRowValuesLeft(int i)
         {
-            for (int j = 0; j < Board.GetLength(1) - 1; j++)
+            for (int j = 0; j < Board.Dimension - 1; j++)
             {
                 AddHorizontalCells(i, j, true);
             }
@@ -121,7 +121,7 @@ namespace Game2048.Command
         {
             int empty = -1;
 
-            for (int j = 0; j < Board.GetLength(1); j++)
+            for (int j = 0; j < Board.Dimension; j++)
             {
                 CheckEmptyAndSwipe(j, ref empty, col, true, true);
             }
@@ -131,10 +131,10 @@ namespace Game2048.Command
         {
             int direction = right ? 1 : -1;
 
-            if (Board[i, j] != 0 && Board[i, j] == Board[i, j + 1 * direction])
+            if (Board[i, j].HasValue && Board[i, j] == Board[i, j + 1 * direction])
             {
-                Board[i, j] = Board[i, j + 1 * direction] * 2;
-                Board[i, j + 1 * direction] = 0;
+                Board[i, j].Value = Board[i, j + 1 * direction].Value * 2;
+                Board[i, j + 1 * direction].SetEmpty();
             }
         }
 
@@ -142,24 +142,23 @@ namespace Game2048.Command
         {
             int direction = up ? 1 : -1;
 
-            if (Board[i, j] != 0 && Board[i, j] == Board[i + 1 * direction, j])
+            if (Board[i, j].HasValue && Board[i, j] == Board[i + 1 * direction, j])
             {
-                Board[i, j] = Board[i + 1 * direction, j] * 2;
-                Board[i + 1 * direction, j] = 0;
+                Board[i, j].Value = Board[i + 1 * direction, j].Value * 2;
+                Board[i + 1 * direction, j].SetEmpty();
             }
         }
 
         private void CheckEmptyAndSwipe(int col, ref int empty, int row, bool up, bool horizontal)
         {
-            if (Board[row, col] == 0 && empty < 0)
+            if (!Board[row, col].HasValue && empty < 0)
             {
                 empty = horizontal ? col : row;
                 return;
             }
-            if (empty >= 0 && Board[row, col] != 0)
+            if (empty >= 0 && Board[row, col].HasValue)
             {
-                // TODO fix issue when swipe right/left
-                Swipe(row, col, empty, col);
+                Swipe(row, col, horizontal ? col : empty, horizontal ? empty : col);
                 empty = up ? empty + 1 : empty - 1;
             }
         }

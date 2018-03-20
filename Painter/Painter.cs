@@ -13,13 +13,13 @@ namespace Game2048.Paint
         {
         }
 
-        public int[,] Board { get; internal set; }
+        public CellArray Board { get; internal set; }
 
         public void Draw()
         {
-            for(int i = 0; i<Board.GetLength(0) ; i++){
-                for(int j = 0; j < Board.GetLength(1) ; j++){
-                    Console.Write("{0,-5}",Board[i,j]);
+            for(int i = 0; i<Board.Dimension ; i++){
+                for(int j = 0; j < Board.Dimension ; j++){
+                    Console.Write("{0,-5}",Board[i,j].Value);
                 }
                 Console.WriteLine();
             }
