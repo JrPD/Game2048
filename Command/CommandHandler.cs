@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace Game2048.Command
 {
@@ -238,6 +239,16 @@ namespace Game2048.Command
             Board[row2, col2].Value = Board[row1, col1].Value;
             Board[row1, col1].Value = temp;
         }
-        #endregion
-    }
+		#endregion
+
+		#region Create new cells
+
+		public void CreateNewCells(ICellGenerator generator)
+		{
+			generator.Generate(Board);
+			Painter.Draw();
+		}
+
+		#endregion
+	}
 }

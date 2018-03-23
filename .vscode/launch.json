@@ -1,9 +1,9 @@
 {
-   // Use IntelliSense to find out which attributes exist for C# debugging
-   // Use hover for the description of the existing attributes
-   // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-   "version": "0.2.0",
-   "configurations": [
+    // Use IntelliSense to find out which attributes exist for C# debugging
+    // Use hover for the description of the existing attributes
+    // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+    "version": "0.2.0",
+    "configurations": [
         {
             "name": ".NET Core Launch (console)",
             "type": "coreclr",
@@ -17,8 +17,8 @@
             "console": "integratedTerminal",
 
             "stopAtEntry": true,
-            "internalConsoleOptions": "openOnSessionStart",
-            
+            "internalConsoleOptions": "openOnSessionStart"
+
         },
         {
             "name": ".NET Core Attach",
@@ -28,4 +28,10 @@
         }
     ],
     
+    "dependencies": {
+        "Microsoft.Extensions.Logging": "1.0.0",
+        "Microsoft.Extensions.Logging.Console": "1.0.0",
+"Microsoft.Extensions.DependencyInjection": "1.0.0",
+  "StructureMap.Microsoft.DependencyInjection": "1.2.0"
+    }
 }
